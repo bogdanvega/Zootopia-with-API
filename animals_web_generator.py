@@ -18,6 +18,7 @@ def print_data():
     location and type of every animal.
     If one of these fields doesn’t exist, it doesn’t print it.
     """
+    output = ""
     try:
         animals_data = load_json_data('animals_data.json')
         for animal in animals_data:
@@ -27,14 +28,17 @@ def print_data():
             animal_type = animal["characteristics"].get("type", "")
 
             if animal_name != "":
-                print(f"Name: {animal_name}")
+                output += f"Name: {animal_name}\n"
             if animal_diet != "":
-                print(f"Diet: {animal_diet}")
+                output += f"Diet: {animal_diet}\n"
             if animal_location != "":
-                print("Location: ", end="")
-                print(', '.join(map(str, animal_location)))
+                output += "Location: "
+                output += ', '.join(map(str, animal_location)) + "\n"
             if animal_type != "":
-                print(f"Type: {animal_type}")
-            print()
+                output += f"Type: {animal_type}\n"
+            output += "\n"
     except FileNotFoundError:
-        print("File not found!")
+        output += "File not found!"
+
+    print(output)
+
