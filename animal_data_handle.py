@@ -1,5 +1,5 @@
-from My_Zootopia.file_manage.html_file_handle import load_html_data, create_html_file
-from My_Zootopia.file_manage.json_file_handle import load_json_data
+from html_file_handle import load_html_data, create_html_file
+from json_file_handle import load_json_data
 
 def get_animal_info():
     """
@@ -9,7 +9,7 @@ def get_animal_info():
     """
     output = ''
     try:
-        animals_data = load_json_data('data/animals_data.json')
+        animals_data = load_json_data('animals_data.json')
         for animal in animals_data:
             output += serialize_animal(animal)
     except FileNotFoundError:
@@ -52,7 +52,7 @@ def replace_animals_info():
     animals information.
     Then calls the function to generate the new html file with animals information.
     """
-    html_template = load_html_data('templates/animals_template.html')
+    html_template = load_html_data('animals_template.html')
     animals_information = get_animal_info()
     if animals_information is None:
         print('File not found!')

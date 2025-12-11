@@ -8,5 +8,5 @@ def load_html_data(html_file_path):
 
 def create_html_file(html_data):
     """ Creates a new html file with the given data """
-    with open('generated_html/animals.html', 'w') as file_object:
+    with open('animals.html', 'w') as file_object:
         return file_object.write(html_data)
