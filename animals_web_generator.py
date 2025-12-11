@@ -12,11 +12,11 @@ def load_html_data(html_file_path):
         return file_object.read()
 
 
-def print_data():
+def get_animal_info():
     """
-    Reads the content of a json file, then prints the name, diet,
-    location and type of every animal.
-    If one of these fields doesn’t exist, it doesn’t print it.
+    Reads the content of a json file, then adds the name, diet,
+    location and type of every animal into a string. Return this string.
+    If one of these fields doesn’t exist, it doesn’t add it.
     """
     output = ""
     try:
@@ -38,7 +38,20 @@ def print_data():
                 output += f"Type: {animal_type}\n"
             output += "\n"
     except FileNotFoundError:
-        output += "File not found!"
+        return None
+    return output
 
-    print(output)
 
+def replace_animals_info():
+    html_template = load_html_data("animals_template.html")
+    animals_information = get_animal_info()
+    if animals_information is None:
+        print("File not found!")
+    else:
+        new_html_content = html_template.replace("__REPLACE_ANIMALS_INFO__", animals_information)
+        generate_new_html_file(new_html_content)
+
+
+def generate_new_html_file(html_data):
+    with open("animals.html", "w") as file_object:
+        return file_object.write(html_data)
