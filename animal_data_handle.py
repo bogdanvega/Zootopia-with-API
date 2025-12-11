@@ -59,3 +59,4 @@ def replace_animals_info():
     else:
         new_html_content = html_template.replace('__REPLACE_ANIMALS_INFO__', animals_information)
         create_html_file(new_html_content)
+        print("animals.html successfully created!")
