@@ -1,31 +1,30 @@
+from data_fetcher import fetch_data
 from html_file_handle import load_html_data, create_html_file
-import requests
 
-API_URL = "https://api.api-ninjas.com/v1/animals?name="
-API_KEY = "z0zx/8ToU4CZ5enIYNnxrw==cUQXkp4JQbKza6Wi"
+def get_animal_name():
+    """ Gets the name of the animal from the user. """
+    return input("Enter a name of an animal: ")
 
-def get_animal_info(animal_name):
+
+def format_animals_html():
     """
-    Fetches the animal data from the API, then calls the function that
-    adds the name, diet, location and type of every type animal into a string
-    formatted like html. Returns this string.
+    Gets the data from the API of the wanted animal,
+    then calls the function that adds information of every
+    type animal into a string formatted like html.
+    Returns this string.
     """
-
     output = ''
-    api_header = {
-        'X-Api-Key': API_KEY
-    }
-    request_url = API_URL + f"{animal_name}"
-    response = requests.get(request_url, headers=api_header)
-    if response.status_code == requests.codes.ok:
-        animals_data = response.json()
-        if not animals_data:
-            output += f"""<h2>The animal "{animal_name}" doesn't exist.</h2>"""
-        for animal in animals_data:
-            output += serialize_animal(animal)
+    animal = get_animal_name()
+    data = fetch_data(animal)
+    if not data:
+        output += f"""<h2>The animal "{animal}" doesn't exist.</h2>"""
+    # treating the case when a different status
+    # than ok is returned from the API request
+    elif type(data) is str:
+        output += f"""<h2>{data}</h2>"""
     else:
-        print("Error:", response.status_code, response.text)
-
+        for animal in data:
+            output += serialize_animal(animal)
     return output
 
 
@@ -57,7 +56,7 @@ def serialize_animal(animal_data):
     return animal_output
 
 
-def replace_animals_info(animal_name):
+def generate_website():
     """
     Loads the html template and animals information into string data.
     Replaces the template text from the "animals_template.html" with
@@ -65,10 +64,7 @@ def replace_animals_info(animal_name):
     Then calls the function to generate the new html file with animals information.
     """
     html_template = load_html_data('animals_template.html')
-    animals_information = get_animal_info(animal_name)
-    if animals_information is None:
-        print('File not found!')
-    else:
-        new_html_content = html_template.replace('__REPLACE_ANIMALS_INFO__', animals_information)
-        create_html_file(new_html_content)
-        print("Website was successfully generated to the file animals.html.")
+    animals_information = format_animals_html()
+    new_html_content = html_template.replace('__REPLACE_ANIMALS_INFO__', animals_information)
+    create_html_file(new_html_content)
+    print("Website was successfully generated to the file animals.html.")
