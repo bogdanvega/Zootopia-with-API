@@ -1,7 +1,13 @@
-This program generates a html file with types of animals.
-The animal type is asked from the user. It helps the user find out what they want about their favorite animals.
+*** Zootopia project ***
+This project generates a html file with types of animals.
+The animal type is asked from the user. It helps the user find out more about their favorite animals.
 
-Open the terminal in Codio. 
-Run command "cd My-Zootopia/" to open the repository.
-To generate the html, run the main.py python file.
-To do that, run command "python3 main.py" in the terminal.
+*** Installation ***
+To install the project, simply clone the repository and install the dependencies in requirements.txt using `pip`
+
+*** Usage ***
+To generate the html, run the following command - 'python3 main.py'
+Follow the instructions and open the file generated to view it.
+
+*** Contributing ***
+We welcome contributions! If you'd like to contribute to this project, please email ...
