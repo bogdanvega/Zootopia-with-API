@@ -4,16 +4,19 @@ import requests
 API_URL = "https://api.api-ninjas.com/v1/animals?name="
 API_KEY = "z0zx/8ToU4CZ5enIYNnxrw==cUQXkp4JQbKza6Wi"
 
-def get_animal_info():
+def get_animal_info(animal_name):
     """
-    Fetches the fox data from the API, then calls the function that
-    adds the name, diet, location and type of every fox type animal into a string
+    Fetches the animal data from the API, then calls the function that
+    adds the name, diet, location and type of every type animal into a string
     formatted like html. Returns this string.
     """
 
     output = ''
-    request_url = API_URL + "Fox"
-    response = requests.get(request_url, headers={'X-Api-Key': API_KEY})
+    api_header = {
+        'X-Api-Key': API_KEY
+    }
+    request_url = API_URL + f"{animal_name}"
+    response = requests.get(request_url, headers=api_header)
     if response.status_code == requests.codes.ok:
         animals_data = response.json()
         for animal in animals_data:
@@ -52,7 +55,7 @@ def serialize_animal(animal_data):
     return animal_output
 
 
-def replace_animals_info():
+def replace_animals_info(animal_name):
     """
     Loads the html template and animals information into string data.
     Replaces the template text from the "animals_template.html" with
@@ -60,10 +63,10 @@ def replace_animals_info():
     Then calls the function to generate the new html file with animals information.
     """
     html_template = load_html_data('animals_template.html')
-    animals_information = get_animal_info()
+    animals_information = get_animal_info(animal_name)
     if animals_information is None:
         print('File not found!')
     else:
         new_html_content = html_template.replace('__REPLACE_ANIMALS_INFO__', animals_information)
         create_html_file(new_html_content)
-        print("animals.html successfully created!")
+        print("Website was successfully generated to the file animals.html.")
