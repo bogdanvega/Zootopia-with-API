@@ -1,19 +1,26 @@
 from html_file_handle import load_html_data, create_html_file
-from json_file_handle import load_json_data
+import requests
+
+API_URL = "https://api.api-ninjas.com/v1/animals?name="
+API_KEY = "z0zx/8ToU4CZ5enIYNnxrw==cUQXkp4JQbKza6Wi"
 
 def get_animal_info():
     """
-    Reads the content of a json file, then calls the function that
-    adds the name, diet, location and type of every animal into a string
+    Fetches the fox data from the API, then calls the function that
+    adds the name, diet, location and type of every fox type animal into a string
     formatted like html. Returns this string.
     """
+
     output = ''
-    try:
-        animals_data = load_json_data('animals_data.json')
+    request_url = API_URL + "Fox"
+    response = requests.get(request_url, headers={'X-Api-Key': API_KEY})
+    if response.status_code == requests.codes.ok:
+        animals_data = response.json()
         for animal in animals_data:
             output += serialize_animal(animal)
-    except FileNotFoundError:
-        return None
+    else:
+        print("Error:", response.status_code, response.text)
+
     return output
 
 
