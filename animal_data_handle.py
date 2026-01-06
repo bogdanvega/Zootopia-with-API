@@ -19,6 +19,8 @@ def get_animal_info(animal_name):
     response = requests.get(request_url, headers=api_header)
     if response.status_code == requests.codes.ok:
         animals_data = response.json()
+        if not animals_data:
+            output += f"""<h2>The animal "{animal_name}" doesn't exist.</h2>"""
         for animal in animals_data:
             output += serialize_animal(animal)
     else:
